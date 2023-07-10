@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TechTalk.SpecFlow;
+using Xunit;
 
 namespace FLS.AmazonPurchase.Steps
 {
@@ -13,6 +14,7 @@ namespace FLS.AmazonPurchase.Steps
     {
         private readonly ScenarioContext scenarioContext;
         private readonly GooglePage googlePage;
+        private readonly AmazonPage amazonPage;
         private readonly IWebDriver driver;
 
         public AmazonPurchaseStepDefinitions(ScenarioContext scenarioContext)
@@ -20,6 +22,7 @@ namespace FLS.AmazonPurchase.Steps
             this.scenarioContext = scenarioContext;
             driver = new ChromeDriver();
             googlePage = new GooglePage(driver);
+            amazonPage = new AmazonPage(driver);
         }
 
         [Given("the google page")]
@@ -28,10 +31,46 @@ namespace FLS.AmazonPurchase.Steps
             googlePage.OpenGoogle();
         }
 
-        [Given("I search (.*)")]
-        public void GivenISearch(string name)
+        [Given("i search (.*)")]
+        public void GivenISearch(string searchQuery)
         {
-            googlePage.SearchPage(name);
+            googlePage.SearchPage(searchQuery);
         }
+
+        [Given("go to the page")]
+        public void GivenGoToThePage()
+        {
+            googlePage.GoToThePage();
+        }
+
+        [Given("checking the site domain")]
+        public void GivenCheckingTheSiteDomain()
+        {
+            var route = amazonPage.GetCurrentUrl();
+
+            var correctRoute = "https://www.amazon.de/";
+
+            Assert.Equal(route, correctRoute);
+        }
+
+        [Given("change the language to English")]
+        public void GivenChangeTheLanguageToEnglish()
+        {
+            amazonPage.ChangeLanguage();
+        }
+
+        [Given("add first product to cart")]
+        public void GivenAddFirstProductToCart()
+        {
+            amazonPage.AddProductToCart();
+        }
+
+        [Given("checking the number of added products")]
+        public void GivenCheckingTheNumberOfAddedProducts()
+        {
+            var countProduct = amazonPage.CountProductBeenAdded();
+            Assert.Equal("1", countProduct);
+        }
+
     }
 }
