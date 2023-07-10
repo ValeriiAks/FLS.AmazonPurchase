@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FLS.AmazonPurchase.Pages
 {
-    class AmazonPage
+    public class AmazonPage
     {
         private IWebDriver driver;
 

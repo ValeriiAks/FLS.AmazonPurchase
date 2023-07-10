@@ -15,14 +15,12 @@ namespace FLS.AmazonPurchase.Steps
         private readonly ScenarioContext scenarioContext;
         private readonly GooglePage googlePage;
         private readonly AmazonPage amazonPage;
-        private readonly IWebDriver driver;
 
-        public AmazonPurchaseStepDefinitions(ScenarioContext scenarioContext)
+        public AmazonPurchaseStepDefinitions(ScenarioContext scenarioContext, GooglePage googlePage, AmazonPage amazonPage)
         {
             this.scenarioContext = scenarioContext;
-            driver = new ChromeDriver();
-            googlePage = new GooglePage(driver);
-            amazonPage = new AmazonPage(driver);
+            this.googlePage = googlePage;
+            this.amazonPage = amazonPage;
         }
 
         [Given("the google page")]
