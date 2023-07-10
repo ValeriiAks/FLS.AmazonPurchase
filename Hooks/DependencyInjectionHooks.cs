@@ -27,5 +27,16 @@ namespace FLS.AmazonPurchase.Hooks
             container.RegisterInstanceAs<GooglePage>(new GooglePage(driver));
             container.RegisterInstanceAs<AmazonPage>(new AmazonPage(driver));
         }
+
+        [AfterScenario]
+        public void DestroyWebDriver()
+        {
+            var driver = container.Resolve<IWebDriver>();
+            if (driver != null)
+            {
+                driver.Quit();
+                driver.Dispose();
+            }
+        }
     }
 }
