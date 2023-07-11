@@ -51,16 +51,39 @@ namespace FLS.AmazonPurchase.Steps
             Assert.Equal(route, correctRoute);
         }
 
+        [Given("accept ckookie")]
+        public void AcceptCkookie()
+        {
+            amazonPage.AcceptCoockie();
+        }
+
         [Given("change the language to English")]
         public void GivenChangeTheLanguageToEnglish()
         {
             amazonPage.ChangeLanguage();
         }
 
+        [Given("chnge delivery location")]
+        public void GivenChangeDeliveryLocation()
+        {
+            amazonPage.ChangeLocation();
+        }
+
+        [Given("find product (.*)")]
+        public void GivenFindProduct(string productName)
+        {
+            amazonPage.FindProduct(productName);
+        }
+
         [Given("add first product to cart")]
         public void GivenAddFirstProductToCart()
         {
             amazonPage.AddProductToCart();
+        }
+        [Given("close popup")]
+        public void ClosePopup()
+        {
+            amazonPage.Close();
         }
 
         [Given("checking the number of added products")]

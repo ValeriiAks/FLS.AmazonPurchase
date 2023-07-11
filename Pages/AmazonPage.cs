@@ -19,21 +19,39 @@ namespace FLS.AmazonPurchase.Pages
             var route = driver.Url;
             return route;
         }
+
         public void ChangeLanguage()
         {
+            var fluentWait = GetDefaultWait();
+
             var languageDropdown = driver.FindElement(By.Id("icp-nav-flyout"));
             languageDropdown.Click();
-            var englishLanguageOption = driver.FindElement(By.XPath("//*[@id=\"icp - language - settings\"]/div[3]/div/label/i"));
+
+            var englishLanguageOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"icp-language-settings\"]/div[3]/div/label/i")));
             englishLanguageOption.Click();
-            var savechanges = driver.FindElement(By.Id("icp-save-button"));
-            savechanges.Click();
+            var saveChanges = driver.FindElement(By.XPath("//*[@id='icp-save-button']/span/input"));
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].click();", saveChanges);
         }
-        public void AddProductToCart()
+
+        public void AcceptCoockie()
+        {
+            var fluentWait = GetDefaultWait();
+
+            var accept = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"sp-cc-accept\"]")));
+            accept.Click();
+        }
+
+        public void FindProduct(string productName)
         {
             var searchInput = driver.FindElement(By.Id("twotabsearchtextbox"));
-            searchInput.SendKeys("waschies");
+            searchInput.SendKeys(productName);
             searchInput.Submit();
+        }
 
+        public void AddProductToCart()
+        {
             var firstProduct = driver.FindElement(By.CssSelector(".sg-col-inner h2 a"));
             firstProduct.Click();
              
@@ -51,22 +69,25 @@ namespace FLS.AmazonPurchase.Pages
         public void ChangeLocation()
         {
             var fluentWait = GetDefaultWait();
-            // Найдите элемент, представляющий выбор локации
+
             var locationSelector = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"nav-global-location-data-modal-action\"]")));
-            // Выполните клик на элементе выбора локации
             locationSelector.Click();
-            ////*[@id="GLUXCountryListDropdown"]
+
             var dropdown = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"GLUXCountryListDropdown\"]")));
             dropdown.Click();
 
-            // Найдите и выберите локацию "United States"
-            ////*[@id="GLUXCountryList_227"]
             var unitedStatesOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"GLUXCountryList_227\"]")));
             unitedStatesOption.Click();
 
-            // Сохраните изменения
             var saveChangesButton = fluentWait.Until(x => x.FindElement(By.Name("glowDoneButton")));
             saveChangesButton.Click();
+        }
+        public void Close()
+        {
+            var fluent = GetDefaultWait();
+
+            var closeButton = fluent.Until(x => x.FindElement(By.XPath("//*[@id=\"attach - sidesheet - view - cart - button\"]/span/input")));
+            closeButton.Click();
         }
     }
 }
