@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,8 +31,10 @@ namespace FLS.AmazonPurchase.Pages
             englishLanguageOption.Click();
 
             var saveChanges = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input")));
-            //saveChanges.Click();
             base.ClickFromJs(saveChanges);
+
+            var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
+            fluentWait.Until(ExpectedConditions.StalenessOf(searchInput));
         }
 
         public void AcceptCoockie()
@@ -41,8 +44,7 @@ namespace FLS.AmazonPurchase.Pages
         }
 
         public void FindProduct(string productName)
-        {
-            //(fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")))).Click();
+        {            
             var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
             searchInput.Click();
             searchInput.SendKeys(productName);
@@ -77,21 +79,6 @@ namespace FLS.AmazonPurchase.Pages
             var saveChangesButton = fluentWait.Until(x => x.FindElement(By.Name("glowDoneButton")));
             saveChangesButton.Click();
         }
-
-        //public void ChangeLocation()
-        //{
-        //    var locationSelector = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"nav-global-location-data-modal-action\"]")));
-        //    locationSelector.Click();
-
-        //    var dropdown = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"GLUXCountryListDropdown\"]")));
-        //    dropdown.Click();
-
-        //    var unitedStatesOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"GLUXCountryList_227\"]")));
-        //    unitedStatesOption.Click();
-
-        //    var saveChangesButton = fluentWait.Until(x => x.FindElement(By.Name("glowDoneButton")));
-        //    saveChangesButton.Click();
-        //}
         public void Close()
         {
             base.PressEsc();
