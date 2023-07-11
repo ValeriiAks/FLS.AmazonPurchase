@@ -25,5 +25,10 @@ namespace FLS.AmazonPurchase.Pages
             searchBox.SendKeys(searchQuery);
             searchBox.Submit();
         }
+        public void GoToThePage()
+        {
+            var amazonLink = driver.FindElement(By.CssSelector("a[href*='amazon.de']"));
+            amazonLink.Click();
+        }        
     }
 }
