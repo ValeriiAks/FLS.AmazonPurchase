@@ -8,30 +8,30 @@ namespace FLS.AmazonPurchase.Pages
 {
     public class AmazonPage : CommonPage
     {
-        private IWebDriver driver;
+        private readonly DefaultWait<IWebDriver> fluentWait;
 
         public AmazonPage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
-            this.driver = driver;
+            this.fluentWait = fluentWait; 
         }
         public string GetCurrentUrl()
         {
-            var route = driver.Url;
+            var route = base.GetUrl();
             return route;
         }
 
         public void ChangeLanguage()
         {
-            var fluentWait = GetDefaultWait();
-
-            var languageDropdown = driver.FindElement(By.Id("icp-nav-flyout"));
+            var languageDropdown = fluentWait.Until(x => x.FindElement(By.Id("icp-nav-flyout")));
             languageDropdown.Click();
 
             var englishLanguageOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"icp-language-settings\"]/div[3]/div/label/i")));
             englishLanguageOption.Click();
-            var saveChanges = driver.FindElement(By.XPath("//*[@id='icp-save-button']/span/input"));
+            var saveChanges = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input")));
 
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            //((IJavaScriptExecutor)fluentWait).ExecuteScript("arguments[0].click();", fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input"))));
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)fluentWait;
             js.ExecuteScript("arguments[0].click();", saveChanges);
         }
 
@@ -45,24 +45,24 @@ namespace FLS.AmazonPurchase.Pages
 
         public void FindProduct(string productName)
         {
-            var searchInput = driver.FindElement(By.Id("twotabsearchtextbox"));
+            var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
             searchInput.SendKeys(productName);
             searchInput.Submit();
         }
 
         public void AddProductToCart()
         {
-            var firstProduct = driver.FindElement(By.CssSelector(".sg-col-inner h2 a"));
+            var firstProduct = fluentWait.Until(x => x.FindElement(By.CssSelector(".sg-col-inner h2 a")));
             firstProduct.Click();
              
             //TODO проверка на наличие на складе 
 
-            var addToCartButton = driver.FindElement(By.Id("add-to-cart-button"));
+            var addToCartButton = fluentWait.Until(x=>x.FindElement(By.Id("add-to-cart-button")));
             addToCartButton.Click();
         }
         public string CountProductBeenAdded()
         {
-            var cartCount = driver.FindElement(By.Id("nav-cart-count")).Text;
+            var cartCount = fluentWait.Until(x=>x.FindElement(By.Id("nav-cart-count")).Text);
             return cartCount;
         }
 

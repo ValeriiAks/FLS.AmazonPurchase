@@ -8,26 +8,26 @@ namespace FLS.AmazonPurchase.Pages
 {
     public class GooglePage : CommonPage
     {
-        private IWebDriver driver;
+        private readonly DefaultWait<IWebDriver> fluentWait;
 
         public GooglePage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
-            this.driver = driver;
+            this.fluentWait = fluentWait;
         }
 
-        public void OpenGoogle()
+        public void OpenGoogle(string url)
         {
-            driver.Navigate().GoToUrl("https://www.google.com");
+            base.GoToUrl(url);
         }
         public void SearchPage(string searchQuery)
         {
-            var searchBox = driver.FindElement(By.Name("q"));
+            var searchBox = fluentWait.Until(x => x.FindElement(By.Name("q")));
             searchBox.SendKeys(searchQuery);
             searchBox.Submit();
         }
         public void GoToThePage()
         {
-            var amazonLink = driver.FindElement(By.CssSelector("a[href*='amazon.de']"));
+            var amazonLink = fluentWait.Until(x => x.FindElement(By.CssSelector("a[href*='amazon.de']")));
             amazonLink.Click();
         }        
     }

@@ -21,5 +21,14 @@ namespace FLS.AmazonPurchase.Pages
         {
             return wait as WebDriverWait;
         }
+        public string GetUrl()
+        {
+            return driver.Url;
+        }
+
+        public void GoToUrl(string url)
+        {
+            driver.Navigate().GoToUrl(url);
+        }
     }
 }

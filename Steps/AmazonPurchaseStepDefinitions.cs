@@ -23,10 +23,10 @@ namespace FLS.AmazonPurchase.Steps
             this.amazonPage = amazonPage;
         }
 
-        [Given("the google page")]
-        public void GivenTheGooglePage()
+        [Given("the google page (.*)")]
+        public void GivenTheGooglePage(string url)
         {
-            googlePage.OpenGoogle();
+            googlePage.OpenGoogle(url);
         }
 
         [Given("i search (.*)")]

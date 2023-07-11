@@ -3,7 +3,7 @@
 
 @mytag
 Scenario: Amzon purchase
-	Given the google page
+	Given the google page https://www.google.com
 	And i search Amazon.de
 	And go to the page
 	And checking the site domain
