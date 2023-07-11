@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,6 @@ namespace FLS.AmazonPurchase.Pages
             this.wait = wait;
             this.driver = driver;
         }
-
-        public WebDriverWait GetDefaultWait()
-        {
-            return wait as WebDriverWait;
-        }
         public string GetUrl()
         {
             return driver.Url;
@@ -29,6 +25,17 @@ namespace FLS.AmazonPurchase.Pages
         public void GoToUrl(string url)
         {
             driver.Navigate().GoToUrl(url);
+        }
+
+        public void ClickFromJs(IWebElement button)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].click();", button);
+        }
+        public void PressEsc()
+        {
+            Actions action = new Actions(driver);
+            action.SendKeys(OpenQA.Selenium.Keys.Escape);
         }
     }
 }

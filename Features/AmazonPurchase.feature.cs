@@ -129,10 +129,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("change the language to English", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.And("chnge delivery location", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("find product mouse", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
- testRunner.And("find product mouse", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("chnge delivery location", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 14
  testRunner.And("add first product to cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

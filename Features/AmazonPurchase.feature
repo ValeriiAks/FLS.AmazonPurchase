@@ -8,9 +8,9 @@ Scenario: Amzon purchase
 	And go to the page
 	And checking the site domain
 	And accept ckookie
-	And change the language to English
-	And chnge delivery location
+	And change the language to English	
 	And find product mouse
+	And chnge delivery location
 	And add first product to cart
 	And close popup
 	And checking the number of added products
