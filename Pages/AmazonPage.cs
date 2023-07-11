@@ -22,19 +22,21 @@ namespace FLS.AmazonPurchase.Pages
         {
             var languageDropdown = driver.FindElement(By.Id("icp-nav-flyout"));
             languageDropdown.Click();
-            var englishLanguageOption = driver.FindElement(By.CssSelector("a[href*='change_locale_trigger']"));
+            var englishLanguageOption = driver.FindElement(By.XPath("//*[@id=\"icp - language - settings\"]/div[3]/div/label/i"));
             englishLanguageOption.Click();
-            var savechanges = driver.FindElement(By.XPath("//*[@id=\"icp-save-button\"]/span/input"));
+            var savechanges = driver.FindElement(By.Id("icp-save-button"));
             savechanges.Click();
         }
         public void AddProductToCart()
         {
             var searchInput = driver.FindElement(By.Id("twotabsearchtextbox"));
-            searchInput.SendKeys("iPhone");
+            searchInput.SendKeys("waschies");
             searchInput.Submit();
 
             var firstProduct = driver.FindElement(By.CssSelector(".sg-col-inner h2 a"));
             firstProduct.Click();
+             
+            //TODO проверка на наличие на складе 
 
             var addToCartButton = driver.FindElement(By.Id("add-to-cart-button"));
             addToCartButton.Click();

@@ -24,8 +24,8 @@ namespace FLS.AmazonPurchase.Hooks
         {
             ChromeDriver driver = new ChromeDriver();
             container.RegisterInstanceAs<IWebDriver>(driver);
-            container.RegisterInstanceAs<GooglePage>(new GooglePage(driver));
-            container.RegisterInstanceAs<AmazonPage>(new AmazonPage(driver));
+            container.RegisterTypeAs<GooglePage, GooglePage>();
+            container.RegisterTypeAs<AmazonPage, AmazonPage>();
         }
 
         [AfterScenario]
