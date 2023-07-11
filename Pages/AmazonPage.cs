@@ -28,10 +28,9 @@ namespace FLS.AmazonPurchase.Pages
 
             var englishLanguageOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"icp-language-settings\"]/div[3]/div/label/i")));
             englishLanguageOption.Click();
+
             var saveChanges = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input")));
-
-            
-
+            //saveChanges.Click();
             base.ClickFromJs(saveChanges);
         }
 
@@ -43,7 +42,9 @@ namespace FLS.AmazonPurchase.Pages
 
         public void FindProduct(string productName)
         {
+            //(fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")))).Click();
             var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
+            searchInput.Click();
             searchInput.SendKeys(productName);
             searchInput.Submit();
 
@@ -52,10 +53,7 @@ namespace FLS.AmazonPurchase.Pages
         }
 
         public void AddProductToCart()
-        {           
-             
-            //TODO проверка на наличие на складе 
-
+        {
             var addToCartButton = fluentWait.Until(x=>x.FindElement(By.Id("add-to-cart-button")));
             addToCartButton.Click();
         }
@@ -78,8 +76,6 @@ namespace FLS.AmazonPurchase.Pages
 
             var saveChangesButton = fluentWait.Until(x => x.FindElement(By.Name("glowDoneButton")));
             saveChangesButton.Click();
-
-
         }
 
         //public void ChangeLocation()
@@ -98,12 +94,7 @@ namespace FLS.AmazonPurchase.Pages
         //}
         public void Close()
         {
-
             base.PressEsc();
-            //var closeButton = fluentWait
-            //    .Until(x => x.FindElement(By.XPath("//*[@id=\"attach-sidesheet-view-cart-button\"]/span/input")));
-
-            //closeButton.Click();
         }
     }
 }

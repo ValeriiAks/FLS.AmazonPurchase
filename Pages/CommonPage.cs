@@ -37,5 +37,10 @@ namespace FLS.AmazonPurchase.Pages
             Actions action = new Actions(driver);
             action.SendKeys(OpenQA.Selenium.Keys.Escape);
         }
+        public void PressEnter()
+        {
+            Actions action = new Actions(driver);
+            action.SendKeys(OpenQA.Selenium.Keys.Enter);
+        }
     }
 }
