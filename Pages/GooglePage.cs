@@ -1,15 +1,16 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FLS.AmazonPurchase.Pages
 {
-    public class GooglePage
+    public class GooglePage : CommonPage
     {
         private IWebDriver driver;
 
-        public GooglePage(IWebDriver driver)
+        public GooglePage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
             this.driver = driver;
         }

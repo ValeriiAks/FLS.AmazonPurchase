@@ -2,6 +2,7 @@
 using FLS.AmazonPurchase.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +24,12 @@ namespace FLS.AmazonPurchase.Hooks
         public void DependencyRegister()
         {
             ChromeDriver driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
             container.RegisterInstanceAs<IWebDriver>(driver);
+            WebDriverWait fluentWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            fluentWait.PollingInterval = TimeSpan.FromMilliseconds(500);
+            fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+            container.RegisterInstanceAs<DefaultWait<IWebDriver>>(fluentWait);
             container.RegisterTypeAs<GooglePage, GooglePage>();
             container.RegisterTypeAs<AmazonPage, AmazonPage>();
         }
