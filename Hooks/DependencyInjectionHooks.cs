@@ -35,10 +35,11 @@ namespace FLS.AmazonPurchase.Hooks
         [BeforeScenario]
         public void DependencyRegister()
         {
+            CreateConfig();
+            var chromeDriverSettings = config.GetSection("ChromeDriver").Get<ChromeDriverSettings>();
             ChromeDriver driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
-            CreateConfig();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(chromeDriverSettings.ImplicitWait);            
             var webDriverWaitSettings = config.GetSection("WebDriverWait").Get<WebDriverWaitSettings>();
             container.RegisterInstanceAs<IWebDriver>(driver);
             WebDriverWait fluentWait = new WebDriverWait(driver, TimeSpan.FromSeconds(webDriverWaitSettings.Timeout));

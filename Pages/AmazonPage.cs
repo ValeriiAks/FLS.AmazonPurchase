@@ -13,70 +13,79 @@ namespace FLS.AmazonPurchase.Pages
     {
         private readonly DefaultWait<IWebDriver> fluentWait;
 
+        private IWebElement LanguageDropdown => fluentWait.Until(x => x.FindElement(By.Id("icp-nav-flyout")));
+        private IWebElement EnglishLanguageOption => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"icp-language-settings\"]/div[3]/div/label/i")));
+        private IWebElement SaveLanguageChanges => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input")));
+        private IWebElement SearchInput => fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
         private IWebElement CurrentLanguage => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-nav-flyout']//span/div")));
+        private IWebElement CookieAccept => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"sp-cc-accept\"]")));
+        private IWebElement FirstProduct => fluentWait.Until(x => x.FindElement(By.CssSelector(".sg-col-inner h2 a")));
+        private IWebElement AddToBasketButton => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"add-to-cart\"]/span")));
+        private IWebElement BasketCount => fluentWait.Until(x => x.FindElement(By.Id("nav-cart-count")));
+        private IWebElement LocationSelector => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"contextualIngressPtLabel_deliveryShortLine\"]")));
+        private IWebElement CountryDropdown => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"GLUXCountryListDropdown\"]")));
+        private IWebElement UnitedStatesOption => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"GLUXCountryList_227\"]")));
+        private IWebElement SaveLocationChangeButton => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.Name("glowDoneButton")));
+        private IReadOnlyCollection<IWebElement> AddToCartButtons => fluentWait.Until(x => x.FindElements(By.XPath("//input[@id='add-to-cart-button']")));
+        private IWebElement ProductPrice => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"apex_offerDisplay_desktop\"]")));
+        private IWebElement ProductId => fluentWait.Until(x => x.FindElement(By.XPath("//input[@id='ASIN']")));
+        private IWebElement ShoppingBasketButton => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"nav-cart\"]")));
+
+
 
         public AmazonPage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
             this.fluentWait = fluentWait;
         }
 
-        public void ChangeLanguage()
+        public bool IsOrderableCurrentProduct()
         {
-            var languageDropdown = fluentWait.Until(x => x.FindElement(By.Id("icp-nav-flyout")));
-            languageDropdown.Click();
-
-            var englishLanguageOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"icp-language-settings\"]/div[3]/div/label/i")));
-            englishLanguageOption.Click();
-
-            var saveChanges = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input")));
-            ClickFromJs(saveChanges);
-
-            var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
-            fluentWait.Until(ExpectedConditions.StalenessOf(searchInput));
+            try
+            {
+                return AddToCartButtons.Count > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public void AcceptCoockie()
+        public void ChangeLanguage()
         {
-            var accept = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"sp-cc-accept\"]")));
-            accept.Click();
+            LanguageDropdown.Click();
+            EnglishLanguageOption.Click();
+            ClickFromJs(SaveLanguageChanges);           
+        }
+
+        public void AcceptCookie()
+        {            
+            CookieAccept.Click();
         }
 
         public void FindProduct(string productName)
         {
-            var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
-            searchInput.Click();
-            searchInput.SendKeys(productName);
-            searchInput.Submit();
-
-            var firstProduct = fluentWait.Until(x => x.FindElement(By.CssSelector(".sg-col-inner h2 a")));
-            firstProduct.Click();
+            SearchInput.Click();
+            SearchInput.SendKeys(productName);
+            SearchInput.Submit();
+            FirstProduct.Click();
         }
 
-        public void AddProductToCart()
-        {
-            var addToCartButton = fluentWait.Until(x => x.FindElement(By.Id("add-to-cart-button")));
-            addToCartButton.Click();
+        public void AddProductToBasket()
+        {            
+            AddToBasketButton.Click();
         }
 
         public string CountProductBeenAdded()
-        {
-            var cartCount = fluentWait.Until(x => x.FindElement(By.Id("nav-cart-count")).Text);
-            return cartCount; //TODO
+        {            
+            return BasketCount.Text;
         }
 
         public void ChangeLocation()
-        {
-            var locationSelector = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"contextualIngressPtLabel_deliveryShortLine\"]")));
-            locationSelector.Click();
-
-            var dropdown = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"GLUXCountryListDropdown\"]")));
-            dropdown.Click();
-
-            var unitedStatesOption = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"GLUXCountryList_227\"]")));
-            unitedStatesOption.Click();
-
-            var saveChangesButton = fluentWait.Until(x => x.FindElement(By.Name("glowDoneButton")));
-            saveChangesButton.Click();
+        {            
+            LocationSelector.Click();
+            CountryDropdown.Click();
+            UnitedStatesOption.Click();
+            SaveLocationChangeButton.Click();
         }
         public void Close()
         {
@@ -85,6 +94,20 @@ namespace FLS.AmazonPurchase.Pages
         public string GetCurrentLanguage()
         {
             return CurrentLanguage.Text;
+        }
+        public string GetProductPrice()
+        {
+            return ProductPrice.Text;
+        }
+
+        public string GetProductId()
+        {
+            return ProductId.GetAttribute("value");
+        }
+        public void GoToShoppingBasket()
+        {
+            ShoppingBasketButton.Click();
+            WaitPageReady();
         }
     }
 }

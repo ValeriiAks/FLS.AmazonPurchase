@@ -26,16 +26,14 @@ namespace FLS.AmazonPurchase.Steps
         public void GivenCheckingTheSiteDomain()
         {
             var url = amazonPage.GetUrl();
-
             var correctUrl = config["AmazonUrl"];
-
             Assert.Equal(url, correctUrl);
         }
 
-        [Given("Amazon I accept ckookie")]
-        public void AcceptCkookie()
+        [Given("Amazon I accept cookie")]
+        public void AcceptCookie()
         {
-            amazonPage.AcceptCoockie();
+            amazonPage.AcceptCookie();
         }
 
         [Given("Amazon I change the language to English")]
@@ -51,6 +49,7 @@ namespace FLS.AmazonPurchase.Steps
         public void GivenChangeDeliveryLocation()
         {
             amazonPage.ChangeLocation();
+            amazonPage.Refresh();
             //TODO assert check new location
         }
 
@@ -62,11 +61,20 @@ namespace FLS.AmazonPurchase.Steps
             // Assert check result exist
         }
 
-        [Given("Amazon I add the first product to cart")]
-        public void GivenAddFirstProductToCart()
+        [Given("Amazon I check current product ready to order")]
+        public void GivenCheckProductReadyToOrder()
         {
-            amazonPage.AddProductToCart();
-            //TODO Add some information about product to scenario
+            var isOrderable = amazonPage.IsOrderableCurrentProduct();
+            Assert.True(isOrderable, "Product cannot be ordered");
+        }
+
+        [Given("Amazon I add the first product to basket")]
+        public void GivenAddFirstProductToBasket()
+        {
+            amazonPage.AddProductToBasket();
+            scenarioContext["LastProductPrice"] = amazonPage.GetProductPrice();
+            scenarioContext["LastProductId"] = amazonPage.GetProductId();
+            amazonPage.WaitPageReady();
         }
         [Given("Amazon I close popup")]
         public void ClosePopup()
@@ -75,12 +83,16 @@ namespace FLS.AmazonPurchase.Steps
             //TODO popup doesnt exist
         }
 
-        [Given("Amazon I check the number of added products")]
-        public void GivenCheckingTheNumberOfAddedProducts()
+        //[Given("Amazon I check the number of added products")]
+        //public void GivenCheckingTheNumberOfAddedProducts()
+        //{
+        //    var countProduct = amazonPage.CountProductBeenAdded();
+        //    Assert.Equal("1", countProduct);
+        //}
+        [Given("Amazon i go to the shopping basket")]
+        public void GoToShoppingBasket()
         {
-            var countProduct = amazonPage.CountProductBeenAdded();
-            Assert.Equal("1", countProduct);
+            amazonPage.GoToShoppingBasket();
         }
-        //TODO add some check
     }
 }
