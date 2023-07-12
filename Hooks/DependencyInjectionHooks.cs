@@ -53,12 +53,12 @@ namespace FLS.AmazonPurchase.Hooks
         [AfterScenario]
         public void DestroyWebDriver()
         {
-            var driver = container.Resolve<IWebDriver>();
-            if (driver != null)
-            {
-                driver.Quit();
-                driver.Dispose();
-            }
+            //var driver = container.Resolve<IWebDriver>();
+            //if (driver != null)
+            //{
+            //    driver.Quit();
+            //    driver.Dispose();
+            //}
         }
     }
 }

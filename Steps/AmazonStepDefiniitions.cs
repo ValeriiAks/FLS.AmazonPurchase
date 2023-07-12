@@ -48,17 +48,27 @@ namespace FLS.AmazonPurchase.Steps
         [Given("Amazon I change delivery location")]
         public void GivenChangeDeliveryLocation()
         {
-            amazonPage.ChangeLocation();
+            amazonPage.ChangeLocationToUS();
             amazonPage.Refresh();
-            //TODO assert check new location
+            var currentLocation = amazonPage.GetCurrentLocation();
+            var isUnitedStates = currentLocation.Contains("United States");
+            Assert.True(isUnitedStates, "The location of the site has not changed to United States");
         }
 
         [Given("Amazon I find some product")]
+        
         public void GivenFindProduct()
         {
             var productName = config["ProductName"];
             amazonPage.FindProduct(productName);
-            // Assert check result exist
+            var firstProductExist = amazonPage.FirstProductExist();
+            Assert.True(firstProductExist, "The result doesnt have any results");
+        }
+
+        [Given("Amazon I go to the first product page")]
+        public void GivenGoToTheFirstProduct()
+        {
+            amazonPage.GoToFirstProduct();
         }
 
         [Given("Amazon I check current product ready to order")]
@@ -76,6 +86,7 @@ namespace FLS.AmazonPurchase.Steps
             scenarioContext["LastProductId"] = amazonPage.GetProductId();
             amazonPage.WaitPageReady();
         }
+
         [Given("Amazon I close popup")]
         public void ClosePopup()
         {
@@ -83,12 +94,17 @@ namespace FLS.AmazonPurchase.Steps
             //TODO popup doesnt exist
         }
 
-        //[Given("Amazon I check the number of added products")]
-        //public void GivenCheckingTheNumberOfAddedProducts()
-        //{
-        //    var countProduct = amazonPage.CountProductBeenAdded();
-        //    Assert.Equal("1", countProduct);
-        //}
+        [Given("Amazon I check the number of added products")]
+        public void GivenCheckingTheNumberOfAddedProducts()
+        {
+            var price = scenarioContext["LastProductPrice"] as string;
+            var id = scenarioContext["LastProductId"] as string;
+            var product = amazonPage.CountProductBeenAdded();
+            Assert.Equal(product.Id, id);
+            Assert.Equal(product.Price, price);
+
+        }
+
         [Given("Amazon i go to the shopping basket")]
         public void GoToShoppingBasket()
         {
