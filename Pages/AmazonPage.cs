@@ -23,7 +23,6 @@ namespace FLS.AmazonPurchase.Pages
         private IWebElement CookieAccept => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"sp-cc-accept\"]")));
         //private IWebElement FirstProduct => fluentWait.Until(x => x.FindElement(By.CssSelector(".sg-col-inner h2 a")));
         private IWebElement AddToBasketButton => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"add-to-cart-button\"]")));
-        private IWebElement BasketCount => fluentWait.Until(x => x.FindElement(By.Id("nav-cart-count")));
         private IWebElement LocationSelector => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"contextualIngressPtLabel_deliveryShortLine\"]")));
         private IWebElement CountryDropdown => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"GLUXCountryListDropdown\"]")));
         private IWebElement UnitedStatesOption => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"GLUXCountryList_227\"]")));
@@ -31,7 +30,9 @@ namespace FLS.AmazonPurchase.Pages
         private IReadOnlyCollection<IWebElement> AddToCartButtons => fluentWait.Until(x => x.FindElements(By.XPath("//input[@id='add-to-cart-button']")));
         private IWebElement ProductPrice => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"apex_offerDisplay_desktop\"]")));
         private IWebElement ProductId => fluentWait.Until(x => x.FindElement(By.XPath("//input[@id='ASIN']")));
-        private IWebElement ShoppingBasketButton => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"nav-cart\"]")));
+        //private IWebElement ShoppingBasketButton => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"nav-cart\"]")));
+        private IWebElement ShoppingBasketButton => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"attach-sidesheet-view-cart-button\"]/span/input")));
+
         private IWebElement CurrentLocation => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"glow-ingress-line2\"]")));
         private IReadOnlyCollection<IWebElement> FirstProduct => fluentWait
                 .Until(x => x.FindElements(

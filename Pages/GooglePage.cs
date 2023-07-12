@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FLS.AmazonPurchase.Pages
@@ -11,8 +12,8 @@ namespace FLS.AmazonPurchase.Pages
     {
         private readonly DefaultWait<IWebDriver> fluentWait;
         private IWebElement SearchBox => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='APjFqb']")));
-        private IWebElement FirstLink => fluentWait.Until(x => x.FindElement(By.CssSelector("a[href*='amazon.de']")));
-        
+        private IReadOnlyCollection<IWebElement> SearchResults => fluentWait.Until(x => x.FindElements(By.XPath("//div[contains(@class, 'yuRUbf')]/a")));
+
 
         public GooglePage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
@@ -25,7 +26,8 @@ namespace FLS.AmazonPurchase.Pages
         }
         public void GoToThePage()
         {
-            FirstLink.Click();
+            var firstResult = SearchResults.First();
+            firstResult.Click();
             WaitPageReady();
         }
     }
