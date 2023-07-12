@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,17 @@ namespace FLS.AmazonPurchase.Pages
     public class GooglePage : CommonPage
     {
         private readonly DefaultWait<IWebDriver> fluentWait;
+        private readonly IConfiguration config;
 
         public GooglePage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
             this.fluentWait = fluentWait;
         }
 
-        public void OpenGoogle(string url)
+        public void OpenGoogle()
         {
-            base.GoToUrl(url);
+            var googleUrl = config["GoogleUrl"];
+            base.GoToUrl(googleUrl);
         }
         public void SearchPage(string searchQuery)
         {

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -11,6 +12,7 @@ namespace FLS.AmazonPurchase.Pages
     public class AmazonPage : CommonPage
     {
         private readonly DefaultWait<IWebDriver> fluentWait;
+        private readonly IConfiguration config;
 
         public AmazonPage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
@@ -18,7 +20,7 @@ namespace FLS.AmazonPurchase.Pages
         }
         public string GetCurrentUrl()
         {
-            var route = base.GetUrl();
+            var route = config["AmazonPage"];
             return route;
         }
 
@@ -43,11 +45,11 @@ namespace FLS.AmazonPurchase.Pages
             accept.Click();
         }
 
-        public void FindProduct(string productName)
+        public void FindProduct()
         {            
             var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
             searchInput.Click();
-            searchInput.SendKeys(productName);
+            searchInput.SendKeys(config["ProductName"]);
             searchInput.Submit();
 
             var firstProduct = fluentWait.Until(x => x.FindElement(By.CssSelector(".sg-col-inner h2 a")));
