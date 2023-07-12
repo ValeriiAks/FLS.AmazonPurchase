@@ -25,6 +25,14 @@ namespace FLS.AmazonPurchase.Pages
         public void GoToUrl(string url)
         {
             driver.Navigate().GoToUrl(url);
+            WaitPageReady();
+        }
+
+        public void WaitPageReady()
+        {
+            wait.Until(d => ((IJavaScriptExecutor)d)
+                .ExecuteScript("return document.readyState")
+                .Equals("complete"));
         }
 
         public void ClickFromJs(IWebElement button)
@@ -35,12 +43,12 @@ namespace FLS.AmazonPurchase.Pages
         public void PressEsc()
         {
             Actions action = new Actions(driver);
-            action.SendKeys(OpenQA.Selenium.Keys.Escape);
+            action.SendKeys(Keys.Escape);
         }
-        public void PressEnter()
+        public void Refresh()
         {
-            Actions action = new Actions(driver);
-            action.SendKeys(OpenQA.Selenium.Keys.Enter);
+            driver.Navigate().Refresh();
+            WaitPageReady();
         }
     }
 }

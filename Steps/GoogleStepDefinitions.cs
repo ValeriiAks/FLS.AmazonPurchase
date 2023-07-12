@@ -1,8 +1,10 @@
 ﻿using FLS.AmazonPurchase.Pages;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using TechTalk.SpecFlow;
+using Xunit;
 
 namespace FLS.AmazonPurchase.Steps
 {
@@ -11,20 +13,25 @@ namespace FLS.AmazonPurchase.Steps
     {
         private readonly ScenarioContext scenarioContext;
         private readonly GooglePage googlePage;
+        private IConfiguration config;
 
-        public GoogleStepDefinitions(ScenarioContext scenarioContext, GooglePage googlePage)
+        public GoogleStepDefinitions(ScenarioContext scenarioContext, GooglePage googlePage, IConfiguration config)
         {
             this.scenarioContext = scenarioContext;
             this.googlePage = googlePage;
+            this.config = config;
         }
 
         [Given("Google I open the google page")]
         public void GivenTheGooglePage()
         {
-            googlePage.OpenGoogle();
+            var googleUrl = config["GoogleUrl"];
+            googlePage.GoToUrl(googleUrl);
+            var currentUrl = googlePage.GetUrl();
+            Assert.True(currentUrl.Contains(googleUrl), "The current page is not google");
         }
 
-        [Given("Google I search")]
+        [Given("Google I search (.*)")]
         public void GivenISearch(string searchQuery)
         {
             googlePage.SearchPage(searchQuery);

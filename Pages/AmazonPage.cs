@@ -12,16 +12,12 @@ namespace FLS.AmazonPurchase.Pages
     public class AmazonPage : CommonPage
     {
         private readonly DefaultWait<IWebDriver> fluentWait;
-        private readonly IConfiguration config;
+
+        private IWebElement CurrentLanguage => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-nav-flyout']//span/div")));
 
         public AmazonPage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
-            this.fluentWait = fluentWait; 
-        }
-        public string GetCurrentUrl()
-        {
-            var route = config["AmazonPage"];
-            return route;
+            this.fluentWait = fluentWait;
         }
 
         public void ChangeLanguage()
@@ -33,7 +29,7 @@ namespace FLS.AmazonPurchase.Pages
             englishLanguageOption.Click();
 
             var saveChanges = fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-save-button']/span/input")));
-            base.ClickFromJs(saveChanges);
+            ClickFromJs(saveChanges);
 
             var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
             fluentWait.Until(ExpectedConditions.StalenessOf(searchInput));
@@ -45,11 +41,11 @@ namespace FLS.AmazonPurchase.Pages
             accept.Click();
         }
 
-        public void FindProduct()
-        {            
+        public void FindProduct(string productName)
+        {
             var searchInput = fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
             searchInput.Click();
-            searchInput.SendKeys(config["ProductName"]);
+            searchInput.SendKeys(productName);
             searchInput.Submit();
 
             var firstProduct = fluentWait.Until(x => x.FindElement(By.CssSelector(".sg-col-inner h2 a")));
@@ -58,13 +54,14 @@ namespace FLS.AmazonPurchase.Pages
 
         public void AddProductToCart()
         {
-            var addToCartButton = fluentWait.Until(x=>x.FindElement(By.Id("add-to-cart-button")));
+            var addToCartButton = fluentWait.Until(x => x.FindElement(By.Id("add-to-cart-button")));
             addToCartButton.Click();
         }
+
         public string CountProductBeenAdded()
         {
             var cartCount = fluentWait.Until(x => x.FindElement(By.Id("nav-cart-count")).Text);
-            return cartCount;
+            return cartCount; //TODO
         }
 
         public void ChangeLocation()
@@ -83,7 +80,11 @@ namespace FLS.AmazonPurchase.Pages
         }
         public void Close()
         {
-            base.PressEsc();
+            PressEsc();
+        }
+        public string GetCurrentLanguage()
+        {
+            return CurrentLanguage.Text;
         }
     }
 }
