@@ -6,8 +6,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using TechTalk.SpecFlow;
 
 namespace FLS.AmazonPurchase.Hooks
@@ -53,12 +51,12 @@ namespace FLS.AmazonPurchase.Hooks
         [AfterScenario]
         public void DestroyWebDriver()
         {
-            //var driver = container.Resolve<IWebDriver>();
-            //if (driver != null)
-            //{
-            //    driver.Quit();
-            //    driver.Dispose();
-            //}
+            var driver = container.Resolve<IWebDriver>();
+            if (driver != null)
+            {
+                driver.Quit();
+                driver.Dispose();
+            }
         }
     }
 }

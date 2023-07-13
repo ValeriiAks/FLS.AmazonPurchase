@@ -1,8 +1,5 @@
 ﻿using FLS.AmazonPurchase.Pages;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -61,14 +58,14 @@ namespace FLS.AmazonPurchase.Steps
         {
             var productName = config["ProductName"];
             amazonPage.FindProduct(productName);
-            var firstProductExist = amazonPage.FirstProductExist();
+            var firstProductExist = amazonPage.ProductsInSearchExist();
             Assert.True(firstProductExist, "The result doesnt have any results");
         }
 
         [Given("Amazon I go to the first product page")]
         public void GivenGoToTheFirstProduct()
         {
-            amazonPage.GoToFirstProduct();
+            amazonPage.OpenFirstProduct();
         }
 
         [Given("Amazon I check current product ready to order")]
@@ -99,13 +96,14 @@ namespace FLS.AmazonPurchase.Steps
         {
             var price = scenarioContext["LastProductPrice"] as string;
             var id = scenarioContext["LastProductId"] as string;
-            var product = amazonPage.CountProductBeenAdded();
-            Assert.Equal(product.Id, id);
-            Assert.Equal(product.Price, price);
+            var product = amazonPage.GetProductFromBasket();
+            Assert.Contains(id, product.Href);
+            Assert.NotNull(price);
+            Assert.Contains(price, product.Price);
 
         }
 
-        [Given("Amazon i go to the shopping basket")]
+        [Given("Amazon I go to the shopping basket")]
         public void GoToShoppingBasket()
         {
             amazonPage.GoToShoppingBasket();

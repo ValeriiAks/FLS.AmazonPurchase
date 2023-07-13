@@ -83,11 +83,11 @@ namespace FLS.AmazonPurchase.Features
         [Xunit.SkippableFactAttribute(DisplayName="Amzon purchase")]
         [Xunit.TraitAttribute("FeatureTitle", "AmazonPurchase")]
         [Xunit.TraitAttribute("Description", "Amzon purchase")]
-        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.TraitAttribute("Category", "AmazonSimplePurchase")]
         public virtual void AmzonPurchase()
         {
             string[] tagsOfScenario = new string[] {
-                    "mytag"};
+                    "AmazonSimplePurchase"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Amzon purchase", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 5
@@ -141,10 +141,16 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("Amazon I check current product ready to order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 16
- testRunner.And("Amazon I close popup", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Amazon I add the first product to basket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
- testRunner.And("Amazon i go to the shopping basket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Amazon I close popup", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+ testRunner.And("Amazon I go to the shopping basket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 19
+ testRunner.And("Amazon I check the number of added products", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
