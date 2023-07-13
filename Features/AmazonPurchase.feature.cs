@@ -83,11 +83,11 @@ namespace FLS.AmazonPurchase.Features
         [Xunit.SkippableFactAttribute(DisplayName="Amzon purchase")]
         [Xunit.TraitAttribute("FeatureTitle", "AmazonPurchase")]
         [Xunit.TraitAttribute("Description", "Amzon purchase")]
-        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.TraitAttribute("Category", "AmazonSimplePurchase")]
         public virtual void AmzonPurchase()
         {
             string[] tagsOfScenario = new string[] {
-                    "mytag"};
+                    "AmazonSimplePurchase"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Amzon purchase", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 5
@@ -111,10 +111,46 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- testRunner.Given("the google page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Google I open the google page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
- testRunner.And("I search Amazon.de", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Google I search Amazon.de", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 8
+ testRunner.And("Google i open the page from search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
+ testRunner.And("Amazon I check the site domain", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+ testRunner.And("Amazon I accept cookie", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 11
+ testRunner.And("Amazon I change the language to English", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.And("Amazon I find some product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 13
+ testRunner.And("Amazon I go to the first product page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 14
+ testRunner.And("Amazon I change delivery location", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 15
+ testRunner.And("Amazon I check current product ready to order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 16
+ testRunner.And("Amazon I add the first product to basket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 17
+ testRunner.And("Amazon I close popup", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+ testRunner.And("Amazon I go to the shopping basket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 19
+ testRunner.And("Amazon I check the number of added products", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

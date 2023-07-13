@@ -1,29 +1,34 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace FLS.AmazonPurchase.Pages
 {
     public class GooglePage : CommonPage
     {
-        private IWebDriver driver;
+        private readonly DefaultWait<IWebDriver> fluentWait;
+        private IWebElement SearchBox => fluentWait.Until(x => x.FindElement(
+            By.XPath("//textarea[contains(@type, 'search')]")));
+
+        private IReadOnlyCollection<IWebElement> SearchResults => fluentWait.Until(x => x.FindElements(
+            By.XPath("//div[@id='search']//div/a")));
+
 
         public GooglePage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
-            this.driver = driver;
-        }
-
-        public void OpenGoogle()
-        {
-            driver.Navigate().GoToUrl("https://www.google.com");
+            this.fluentWait = fluentWait;
         }
         public void SearchPage(string searchQuery)
         {
-            var searchBox = driver.FindElement(By.Name("q"));
-            searchBox.SendKeys(searchQuery);
-            searchBox.Submit();
+            SearchBox.SendKeys(searchQuery);
+            SearchBox.Submit();
+        }
+        public void GoToThePage()
+        {
+            var firstResult = SearchResults.First();
+            firstResult.Click();
+            WaitPageReady();
         }
     }
 }
