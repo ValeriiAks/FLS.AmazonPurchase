@@ -16,11 +16,11 @@ namespace FLS.AmazonPurchase.Pages
         private IWebElement SaveLanguageChanges => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='icp-save-button']/span/input")));
         private IWebElement SearchInput => fluentWait.Until(x => x.FindElement(By.Id("twotabsearchtextbox")));
         private IWebElement CurrentLanguage => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='icp-nav-flyout']//span/div")));
-        private IWebElement CookieAccept => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id=\"sp-cc-accept\"]")));
+        private IWebElement CookieAccept => fluentWait.Until(x => x.FindElement(By.XPath("//*[@id='sp-cc-accept']")));
         private IWebElement AddToBasketButton => fluentWait.Until(x => x.FindElement(By.XPath("//input[@id='add-to-cart-button' and contains(@value, 'Add to Basket')]")));
-        private IWebElement LocationSelector => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"contextualIngressPtLabel_deliveryShortLine\"]")));
-        private IWebElement CountryDropdown => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"GLUXCountryListDropdown\"]")));
-        private IWebElement UnitedStatesOption => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"GLUXCountryList_227\"]")));
+        private IWebElement LocationSelector => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='contextualIngressPtLabel_deliveryShortLine']")));
+        private IWebElement CountryDropdown => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='GLUXCountryListDropdown']")));
+        private IWebElement UnitedStatesOption => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='GLUXCountryList_227']")));
         private IWebElement SaveLocationChangeButton => fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.Name("glowDoneButton")));
         private IReadOnlyCollection<IWebElement> AddToCartButtons => fluentWait.Until(x => x.FindElements(By.XPath("//input[@id='add-to-cart-button']")));
         private IWebElement ProductPrice => fluentWait.Until(x => x.FindElement(By.XPath("//span[@id='attach-accessory-cart-subtotal']")));
