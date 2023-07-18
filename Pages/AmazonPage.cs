@@ -47,36 +47,48 @@ namespace FLS.AmazonPurchase.Pages
         {
             return AddToCartButtons.Count > 0;
         }
-        public void ChangeLanguage()
+        public void ClickLanguageDropdown()
         {
             LanguageDropdown.Click();
+        }
+        public void SelectEnglishLanguage()
+        {
             EnglishLanguageOption.Click();
-            SaveLanguageChanges.Click();       
+        }
+        public void ClickSaveLanguageButton()
+        {
+            SaveLanguageChanges.Click();
         }
         public void AcceptCookie()
-        {            
+        {
             CookieAccept.Click();
         }
-        public void FindProduct(string productName)
+        public void ClickOnSearchInput()
         {
             SearchInput.Click();
-            SearchInput.SendKeys(productName);
-            SearchInput.Submit();
         }
-        public bool ProductsInSearchExist()
+        public void TextInput(string productName)
         {
-            return ProductsInFirstSearchPage.Count > 0;
+            SearchInput.SendKeys(productName);
+        }
+        public void StartASearch()
+        {
+            SearchInput.Submit();
         }
         public void OpenFirstProduct()
         {
             ProductsInFirstSearchPage.First().Click();
         }
+        public bool ProductsInSearchExist()
+        {
+            return ProductsInFirstSearchPage.Count > 0;
+        }        
         public void AddProductToBasket()
         {            
             AddToBasketButton.Click();
         }
         public Product GetProductFromBasket()
-        {            
+        {
             var product = new Product()
             {
                 Price = ProductPriceFromBasket.Text,
@@ -84,11 +96,20 @@ namespace FLS.AmazonPurchase.Pages
             };
             return product;
         }
-        public void ChangeLocationToUS()
-        {            
+        public void ClickOnLocationSelector()
+        {
             LocationSelector.Click();
+        }
+        public void ClickOnCountryDropdown()
+        {
             CountryDropdown.Click();
+        }
+        public void SelectUnitedStatesOption()
+        {
             UnitedStatesOption.Click();
+        }
+        public void ClickSaveLocationButton()
+        {
             SaveLocationChangeButton.Click();
         }
         public void Close()

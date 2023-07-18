@@ -19,7 +19,7 @@ namespace FLS.AmazonPurchase.Steps
             this.config = config;
         }
 
-        [Given("Amazon I check the site domain")]
+        [Given("I check the site domain")]
         public void GivenCheckingTheSiteDomain()
         {
             var url = amazonPage.GetUrl();
@@ -27,55 +27,88 @@ namespace FLS.AmazonPurchase.Steps
             Assert.Equal(url, correctUrl);
         }
 
-        [Given("Amazon I accept cookie")]
-        public void AcceptCookie()
+        [Given("I accept cookie")]
+        public void GivenAcceptCookie()
         {
             amazonPage.AcceptCookie();
         }
 
-        [Given("Amazon I change the language to English")]
-        public void GivenChangeTheLanguageToEnglish()
+        [Given("I click on laguage dropdown")]
+        public void GivenIClickOnLanguageDropdown()
         {
-            amazonPage.ChangeLanguage();
-            amazonPage.Refresh();
-            var isCurrentLanguageEnglish = amazonPage.GetCurrentLanguage().Contains("EN");
-            Assert.True(isCurrentLanguageEnglish, "The language of the site has not changed to English!");
+            amazonPage.ClickLanguageDropdown();
         }
 
-        [Given("Amazon I change delivery location")]
-        public void GivenChangeDeliveryLocation()
+        [Given("I select english language")]
+        public void GivenISelectEnglishLanguage()
         {
-            amazonPage.ChangeLocationToUS();
-            amazonPage.Refresh();
-            var currentLocation = amazonPage.GetCurrentLocation();
-            var isUnitedStates = currentLocation.Contains("United States");
-            Assert.True(isUnitedStates, "The location of the site has not changed to United States");
+            amazonPage.SelectEnglishLanguage();
         }
 
-        [Given("Amazon I find some product")]
-        
-        public void GivenFindProduct()
+        [Given("I save language chnges")]
+        public void GivenIClickSaveLanguageButton()
         {
-            var productName = config["ProductName"];
-            amazonPage.FindProduct(productName);
+            amazonPage.ClickSaveLanguageButton();
+        }
+
+        [Given("I click on search input")]
+        public void GivenClickOnSearchInput()
+        {
+            amazonPage.ClickOnSearchInput();
+        }
+
+        [Given("I type in the search bar")]
+        public void GivenTextInput()
+        {
+            amazonPage.TextInput(config["ProductName"]);
+        }
+
+        [Given("I start a search product")]
+        public void GivenStartASearch()
+        {
+            amazonPage.StartASearch();
             var firstProductExist = amazonPage.ProductsInSearchExist();
             Assert.True(firstProductExist, "The result doesnt have any results");
         }
 
-        [Given("Amazon I go to the first product page")]
+        [Given("I go to the first product page")]
         public void GivenGoToTheFirstProduct()
         {
             amazonPage.OpenFirstProduct();
         }
 
-        [Given("Amazon I check current product ready to order")]
+        [Given("I click on location selector")]
+        public void GivenClickOnLocationSelector()
+        {
+            amazonPage.ClickOnLocationSelector();
+        }
+
+        [Given("I click on country dropdown")]
+        public void GivenClickOnCountryDropdown()
+        {
+            amazonPage.ClickOnCountryDropdown();
+        }
+
+        [Given("I select united states option")]
+        public void GivenSelectUnitedStatesOption()
+        {
+            amazonPage.SelectUnitedStatesOption();
+        }
+
+        [Given("I click save location button")]
+        public void GivenClickSaveLocationButton()
+        {
+            amazonPage.ClickSaveLocationButton();
+        }
+
+        [Given("I check current product ready to order")]
         public void GivenCheckProductReadyToOrder()
         {
             var isOrderable = amazonPage.IsOrderableCurrentProduct();
             Assert.True(isOrderable, "Product cannot be ordered");
         }
 
-        [Given("Amazon I add the first product to basket")]
+        [Given("I add the first product to basket")]
         public void GivenAddFirstProductToBasket()
         {
             amazonPage.AddProductToBasket();
@@ -84,14 +117,13 @@ namespace FLS.AmazonPurchase.Steps
             amazonPage.WaitPageReady();
         }
 
-        [Given("Amazon I close popup")]
+        [Given("I close popup")]
         public void ClosePopup()
         {
             amazonPage.Close();
-            //TODO popup doesnt exist
         }
 
-        [Given("Amazon I check the number of added products")]
+        [Given("I check the number of added products")]
         public void GivenCheckingTheNumberOfAddedProducts()
         {
             var price = scenarioContext["LastProductPrice"] as string;
@@ -103,7 +135,7 @@ namespace FLS.AmazonPurchase.Steps
 
         }
 
-        [Given("Amazon I go to the shopping basket")]
+        [Given("I go to the shopping basket")]
         public void GoToShoppingBasket()
         {
             amazonPage.GoToShoppingBasket();
