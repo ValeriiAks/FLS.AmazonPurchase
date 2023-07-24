@@ -123,7 +123,7 @@ namespace FLS.AmazonPurchase.Steps
             amazonPage.Close();
         }
 
-        [Given("I check the number of added products")]
+        [Given("I check the correctness of the added product")]
         public void GivenCheckingTheNumberOfAddedProducts()
         {
             var price = scenarioContext["LastProductPrice"] as string;

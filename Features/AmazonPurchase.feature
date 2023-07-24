@@ -26,4 +26,4 @@ Scenario: Amzon purchase
 	And I add the first product to basket
 	And I close popup
 	And I go to the shopping basket
-	And I check the number of added products
+	And I check the correctness of the added product
