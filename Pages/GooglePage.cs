@@ -8,6 +8,7 @@ namespace FLS.AmazonPurchase.Pages
     public class GooglePage : CommonPage
     {
         private readonly DefaultWait<IWebDriver> fluentWait;
+        private IWebElement firstElemntFromSearching;
         private IWebElement SearchBox => fluentWait.Until(x => x.FindElement(
             By.XPath("//textarea[contains(@type, 'search')]")));
 
@@ -15,20 +16,26 @@ namespace FLS.AmazonPurchase.Pages
             By.XPath("//div[@id='search']//div/a")));
 
 
+
         public GooglePage(IWebDriver driver, DefaultWait<IWebDriver> fluentWait) : base(fluentWait, driver)
         {
             this.fluentWait = fluentWait;
         }
-        public void SearchPage(string searchQuery)
+        public void TextInput(string searchQuery)
         {
             SearchBox.SendKeys(searchQuery);
+        }
+        public void StartASearch()
+        {
             SearchBox.Submit();
         }
-        public void GoToThePage()
+        public void SelectFirstSearchElement()
         {
-            var firstResult = SearchResults.First();
-            firstResult.Click();
-            WaitPageReady();
+            firstElemntFromSearching = SearchResults.First();
+        }
+        public void ClickFirstSearchElement()
+        {
+            firstElemntFromSearching.Click();
         }
     }
 }
